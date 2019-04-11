@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mappers">
+
+    <select id="getUser" parameterType="string" resultType="entities.User">
+        SELECT * FROM testtaskdb.user WHERE login=#{login}
+    </select>
+
+    <select id="getCountOfRecords" parameterType="hashmap" resultType="int">
+        SELECT COUNT(*) FROM testtaskdb.videolibrary WHERE (#{year} is null or year LIKE #{year}) AND (#{name} is null or name LIKE #{name}) AND (#{genre} is null or genre LIKE #{genre}) AND (#{country} is null or country LIKE #{country}) AND (#{descriptionLink} is null or descriptionLink LIKE #{descriptionLink}) AND (#{videoLink} is null or videoLink LIKE #{videoLink})
+    </select>
+
+<!--    <select id="getListOfRecords" resultType="entities.VideoRecord" parameterType="hashmap">
+        SELECT * FROM testtaskdb.videolibrary ORDER BY id LIMIT #{start}, #{number}
+    </select>-->
+
+    <select id="getChosenRecord" resultType="entities.VideoRecord" parameterType="int">
+        SELECT * FROM testtaskdb.videolibrary WHERE id=#{id}
+    </select>
+
+    <select id="getDesiredListOfRecords" parameterType="hashmap" resultType="entities.VideoRecord">
+        SELECT * FROM testtaskdb.videolibrary WHERE (#{year} is null or year LIKE #{year}) AND (#{name} is null or name LIKE #{name}) AND (#{genre} is null or genre LIKE #{genre}) AND (#{country} is null or country LIKE #{country}) AND (#{descriptionLink} is null or descriptionLink LIKE #{descriptionLink}) AND (#{videoLink} is null or videoLink LIKE #{videoLink}) ORDER BY id LIMIT #{start}, #{number}
+    </select>
+
+    <insert id="addVideoRecord" parameterType="entities.VideoRecord" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO testtaskdb.videolibrary(name, year, country, descriptionLink, videoLink, genre) VALUES (#{name},#{year},#{country},#{descriptionLink},#{videoLink},#{genre});
+    </insert>
+
+    <delete id="deleteVideoRecord">
+        DELETE FROM testtaskdb.videolibrary where id=#{id}
+    </delete>
+
+    <update id="editVideoRecord" parameterType="entities.VideoRecord">
+        UPDATE testtaskdb.videolibrary SET name=#{name}, year=#{year}, country=#{country}, descriptionLink=#{descriptionLink}, videoLink=#{videoLink}, genre=#{genre} WHERE id=#{id}
+    </update>
+
+</mapper>
